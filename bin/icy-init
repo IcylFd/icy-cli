@@ -12,7 +12,7 @@ require('shelljs/global');
 
 const initFolder = 'icy-lfd';
 const initName = 'react-template';
-const initRepository = 'https://github.com/garinghu/react-template.git';
+const initRepository = 'https://github.com/IcylFd/react-template.git';
 
 new Promise(async (resolve, reject) => {
     await fs.stat(path.resolve(home, initFolder, initName), (err, stats) => {
