@@ -8,6 +8,7 @@ const generator = require('../lib/generator');
 const download = require('download-git-repo');
 const chalk = require('chalk');
 const figlet = require('figlet');
+const emoji = require('emoji');
 require('shelljs/global');
 
 const initFolder = 'icy-lfd';
@@ -49,5 +50,6 @@ new Promise(async (resolve, reject) => {
         }
     ])
 }).then(answers => {
+    console.log(chalk.yellow(`✨  ${answers.projectName} has been created successfully.`))
     return generator(answers, path.resolve(process.cwd(), initName))
 }).then(() => {}).catch(err => {})

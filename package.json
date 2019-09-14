@@ -1,7 +1,7 @@
 {
-  "name": "your-cli",
-  "version": "1.0.2",
-  "description": "your cli",
+  "name": "icy-cli",
+  "version": "1.0.3",
+  "description": "icy cli",
   "main": "index.js",
   "author": "icy",
   "license": "MIT",
