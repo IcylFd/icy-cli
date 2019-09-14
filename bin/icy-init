@@ -1,0 +1,53 @@
+#!/usr/bin/env node
+
+const inquirer = require('inquirer');
+const fs = require('fs');
+const path = require('path');
+const home = require('user-home');
+const generator = require('../lib/generator');
+const download = require('download-git-repo');
+const chalk = require('chalk');
+const figlet = require('figlet');
+require('shelljs/global');
+
+const initFolder = 'icy-lfd';
+const initName = 'react-template';
+const initRepository = 'https://github.com/garinghu/react-template.git';
+
+new Promise(async (resolve, reject) => {
+    await fs.stat(path.resolve(home, initFolder, initName), (err, stats) => {
+        if(err) {
+            download(`direct:${initRepository}#master`, path.resolve(home, initFolder, initName), { clone: true }, (err) => {
+                if (err) {
+                    console.log(err);
+                    return;
+                }
+                resolve();
+            })
+        }
+    })
+    resolve();
+}).then(() => {
+    console.log(
+        chalk.green(
+            figlet.textSync('your cli')
+    ));
+    exec(`cp -R ${path.resolve(home, initFolder, initName)} ${path.resolve(process.cwd())}`, false)
+    return inquirer.prompt([
+        {
+            name: 'projectName',
+            message: '项目的名称',
+            default: initName
+        }, {
+            name: 'projectVersion',
+            message: '项目的版本号',
+            default: '1.0.0'
+        }, {
+            name: 'projectDescription',
+            message: '项目的简介',
+            default: `A project named ${initName}`
+        }
+    ])
+}).then(answers => {
+    return generator(answers, path.resolve(process.cwd(), initName))
+}).then(() => {}).catch(err => {})
